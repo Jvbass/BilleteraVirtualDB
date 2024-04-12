@@ -147,8 +147,8 @@ JOIN monedas M USING (currency_id)
 WHERE U.user_id = 2;
 
 /*Consulta para obtener las transacciones realizadas por un usuario específico*/
--- Transacciones realizadas por el usuario 1
-SELECT T.transaction_id, u_sender.nombre AS usuario_origen, T.receiver_cuenta_id AS cuenta_destino, M.currency_name AS tipo_de_moneda, T.importe AS monto, T.transaction_date
+-- Transacciones realizadas por el usuario 1 Juan Pérez, quien tiene 3 cuentas en 3 diferentes monedas.
+SELECT T.transaction_id, u_sender.nombre AS usuario_origen, T.sender_cuenta_id AS cuenta_origen, T.receiver_cuenta_id AS cuenta_destino, M.currency_name AS tipo_de_moneda, T.importe AS monto, T.transaction_date
 FROM  transacciones T
 JOIN cuentas c_sender ON T.sender_cuenta_id = c_sender.cuenta_id
 JOIN usuarios u_sender ON c_sender.user_id = u_sender.user_id
@@ -156,10 +156,11 @@ JOIN monedas M ON T.currency_id = M.currency_id
 WHERE u_sender.user_id = 1;
 
 -- Consulta para obtener todos los usuarios registrados
+SELECT nombre FROM usuarios;
+
 -- Consulta para obtener todas las monedas registradas
+SELECT currency_name FROM monedas;
+
 -- Consulta para obtener todas las transacciones registradas
--- Consulta para obtener todas las transacciones realizadas por un usuario específico
--- Consulta para obtener todas las transacciones recibidas por un usuario específico
--- Sentencia DML para modificar el campo correo electrónico de un usuario específico
--- Sentencia para eliminar los datos de una transacción (eliminado de la fila completa)
--- Sentencia para DDL modificar el nombre de la columna correo_electronico por email
+SELECT * FROM transacciones;
+
