@@ -164,3 +164,23 @@ SELECT currency_name FROM monedas;
 -- Consulta para obtener todas las transacciones registradas
 SELECT * FROM transacciones;
 
+/*Consulta para obtener todas las transacciones realizadas por un usuario específico*/
+-- Transacciones realizadas por el usuario 2 María González, quien tiene 3 cuentas en 3 diferentes monedas.
+SELECT T.transaction_id, u_sender.nombre AS usuario_origen, T.sender_cuenta_id AS cuenta_origen, T.receiver_cuenta_id AS cuenta_destino, M.currency_name AS tipo_de_moneda, T.importe AS monto, T.transaction_date
+FROM  transacciones T
+JOIN cuentas c_sender ON T.sender_cuenta_id = c_sender.cuenta_id
+JOIN usuarios u_sender ON c_sender.user_id = u_sender.user_id
+JOIN monedas M ON T.currency_id = M.currency_id
+WHERE u_sender.user_id = 2;
+
+/*Consulta para obtener todas las transacciones recibidas por un usuario específico*/
+-- Transacciones recibidas por el usuario 3 Pedro Ramirez.
+SELECT T.transaction_id, u_receiver.nombre AS usuario_receptor, T.receiver_cuenta_id AS cuenta_receptor, T.sender_cuenta_id AS cuenta_origen, M.currency_name AS tipo_moneda, t.importe AS monto, T.transaction_date
+FROM transacciones T
+JOIN cuentas c_receiver ON T.receiver_cuenta_id = c_receiver.cuenta_id
+JOIN Usuarios u_receiver ON c_receiver.user_id = u_receiver.user_id
+JOIN monedas M ON T.currency_id = M.currency_id
+WHERE u_receiver.user_id = 3;
+
+
+
