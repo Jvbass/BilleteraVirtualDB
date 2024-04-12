@@ -75,20 +75,13 @@ DROP PROCEDURE IF EXISTS `Transaccion`;
 -- Creamos el delimitador // en reemplazo de ; para poder realizar los procedimientos de la TRANSACTION
 DELIMITER // 
 -- Crea el PROCEDURE Transaction() que recibe por parametros el la id de la cuenta de origen y de destino, el monto y la id de la moneda utilizada
-CREATE PROCEDURE Transaccion(
-    IN sender_cuenta_id INT,
-    IN receiver_cuenta_id INT,
-    IN monto DECIMAL(10,2),
-    IN currency_id INT
-)
+CREATE PROCEDURE Transaccion(IN sender_cuenta_id INT, IN receiver_cuenta_id INT, IN monto DECIMAL(10,2), IN tipo_moneda_sender INT)
 BEGIN
 -- Declaramos las variables saldo_cuenta_origen, tipo_moneda_sender y tipo_moneda_receiver para mas adelante validar la transaccion
     DECLARE saldo_cuenta_origen DECIMAL(10,2);
-    DECLARE tipo_moneda_sender INT;
     DECLARE tipo_moneda_receiver INT;
-
-    START TRANSACTION;
     
+    START TRANSACTION;
     -- Restamos el monto a la cuenta origen
     UPDATE cuentas
     SET saldo = saldo - monto
@@ -99,7 +92,7 @@ BEGIN
     SET saldo = saldo + monto
     WHERE cuenta_id = receiver_cuenta_id;
 
-    -- Asignamos los valores de la tabla cuentas a saldo_cuenta_origen y tipo_moneda_sender segun el parametro recibido como receiver_cuenta_id
+    -- Asignamos los valores de la tabla cuentas a saldo_cuenta_origen y tipo_moneda_sender segun el parametro recibido como sender_cuenta_id
     SELECT saldo, currency_id INTO saldo_cuenta_origen, tipo_moneda_sender
     FROM cuentas
     WHERE cuenta_id = sender_cuenta_id;
@@ -125,9 +118,9 @@ BEGIN
 
         COMMIT; -- Con commit confirmamos la transaccion y se realizan los cambios en todas las tablas (UPDATE en cuentas e INSERT en transacciones)
         SELECT 'Transferencia realizada con éxito' AS Mensaje;
-    END IF;-- Fin del condicional IF
+    END IF;
 END // -- Fin del PROCEDURE
--- Asignamos ; como delimitador nuevamente.
+-- Reasignamo ; como delimitador.
 DELIMITER ; 
 
 -- Llamamos al Procedimiento Transaccion() con los valores deseados
@@ -142,7 +135,3 @@ CALL Transaccion(8, 4, 450.00, 2);
 CALL Transaccion(9, 6, 325.00, 3);
 CALL Transaccion(7, 4, 235.00, 1);
 CALL Transaccion(5, 8, 235.00, 2);
-
--- Transacciones fallidas (ejemplos)
-CALL Transaccion(7, 2, 20035.00, 1);
-CALL Transaccion(5, 6, 200.00, 2);
