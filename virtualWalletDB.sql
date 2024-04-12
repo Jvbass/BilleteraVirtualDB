@@ -114,7 +114,7 @@ BEGIN
     ELSE
         -- Si la cuenta origen tiene saldo suficiente y los tipos de moneda coincide guardamos la transaccion en la tabla transacciones
         INSERT INTO transacciones (sender_cuenta_id, receiver_cuenta_id, importe, currency_id)
-        VALUES (sender_cuenta_id, receiver_cuenta_id, monto, currency_id);
+        VALUES (sender_cuenta_id, receiver_cuenta_id, monto, tipo_moneda_sender);
 
         COMMIT; -- Con commit confirmamos la transaccion y se realizan los cambios en todas las tablas (UPDATE en cuentas e INSERT en transacciones)
         SELECT 'Transferencia realizada con éxito' AS Mensaje;
@@ -135,3 +135,31 @@ CALL Transaccion(8, 4, 450.00, 2);
 CALL Transaccion(9, 6, 325.00, 3);
 CALL Transaccion(7, 4, 235.00, 1);
 CALL Transaccion(5, 8, 235.00, 2);
+
+
+	/*Consultas SQL*/
+/*Consulta para obtener el nombre de la moneda elegida por un usuario específico*/
+-- Usamos las tablas cuentas, monedas y usuarios para capturar los datos solicitados
+SELECT M.currency_name AS moneda, U.nombre AS usuario
+FROM usuarios U
+JOIN cuentas C USING (user_id)
+JOIN monedas M USING (currency_id)
+WHERE U.user_id = 2;
+
+/*Consulta para obtener las transacciones realizadas por un usuario específico*/
+-- Transacciones realizadas por el usuario 1
+SELECT T.transaction_id, u_sender.nombre AS usuario_origen, T.receiver_cuenta_id AS cuenta_destino, M.currency_name AS tipo_de_moneda, T.importe AS monto, T.transaction_date
+FROM  transacciones T
+JOIN cuentas c_sender ON T.sender_cuenta_id = c_sender.cuenta_id
+JOIN usuarios u_sender ON c_sender.user_id = u_sender.user_id
+JOIN monedas M ON T.currency_id = M.currency_id
+WHERE u_sender.user_id = 1;
+
+-- Consulta para obtener todos los usuarios registrados
+-- Consulta para obtener todas las monedas registradas
+-- Consulta para obtener todas las transacciones registradas
+-- Consulta para obtener todas las transacciones realizadas por un usuario específico
+-- Consulta para obtener todas las transacciones recibidas por un usuario específico
+-- Sentencia DML para modificar el campo correo electrónico de un usuario específico
+-- Sentencia para eliminar los datos de una transacción (eliminado de la fila completa)
+-- Sentencia para DDL modificar el nombre de la columna correo_electronico por email
