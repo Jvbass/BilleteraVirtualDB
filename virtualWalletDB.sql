@@ -182,5 +182,17 @@ JOIN Usuarios u_receiver ON c_receiver.user_id = u_receiver.user_id
 JOIN monedas M ON T.currency_id = M.currency_id
 WHERE u_receiver.user_id = 3;
 
+-- Sentencia DML para modificar el campo correo electrónico de un usuario específico
+-- (Data Manipulation Language) Modificando correo usuario 1 con UPDATE
+UPDATE usuarios
+SET correo_electronico = 'jperez@gmail.cl'
+WHERE user_id = 1;
 
+-- Sentencia para eliminar los datos de una transacción (eliminado de la fila completa)
+DELETE FROM TRANSACCIONES WHERE transaction_id = 11;
+
+-- Sentencia para DDL modificar el nombre de la columna correo_electronico por email
+-- (Data Definition Language) con ALTER TABLE modificamos el nombre de la columna correo_electronico
+ALTER TABLE usuarios
+CHANGE correo_electronico email VARCHAR(100) NOT NULL;
 
