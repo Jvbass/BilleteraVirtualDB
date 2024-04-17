@@ -74,7 +74,7 @@ VALUES
 DROP PROCEDURE IF EXISTS `Transaccion`;
 -- Creamos el delimitador // en reemplazo de ; para poder realizar los procedimientos de la TRANSACTION
 DELIMITER // 
--- Crea el PROCEDURE Transaction() que recibe por parametros el la id de la cuenta de origen y de destino, el monto y la id de la moneda utilizada
+-- Crea el PROCEDURE Transaction() que recibe por parametros la id de la cuenta de origen y de destino, el monto y la id de la moneda utilizada
 CREATE PROCEDURE Transaccion(IN sender_cuenta_id INT, IN receiver_cuenta_id INT, IN monto DECIMAL(10,2), IN tipo_moneda_sender INT)
 BEGIN
 -- Declaramos las variables saldo_cuenta_origen, tipo_moneda_sender y tipo_moneda_receiver para mas adelante validar la transaccion
