@@ -12,7 +12,7 @@ Esta base de datos VirtualWallet es una aproximacion a una base de datos real di
 
 
 ## ⚙️ Diagrama y Componentes de la base de datos
-![Diagrama ER Virtual Wallet](./diagramaVirtualWallet)
+![Diagrama ER Virtual Wallet](./diagramaVirtualWallet.png)
 ### **Tablas**
   - **usuarios**: Almacena datos de usuarios nombres, correos electrónicos y contraseñas encriptadas y fecha de creacion.
   - **monedas**: Permite el registro de 3 diferentes monedas, USD, EUR, YEN, con sus respectivos simbolos.
